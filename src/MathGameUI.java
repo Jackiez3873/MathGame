@@ -49,5 +49,13 @@ public class MathGameUI {
             playAgain = scan.nextLine().toLowerCase(); // take input and covert to lowercase
         }
         System.out.println("Thanks for playing the Math Game! Goodbye!");
+        int randNum = (int) (Math.random() * 3) + 1;
+        if (randNum == 1) {
+            System.out.println("Player 1 has received good luck and will win next time.");
+        } else if (randNum == 2) {
+            System.out.println("Player 2 has received good luck and will win next time.");
+        } else {
+            System.out.println("Player 3 has received good luck and will win next time.");
+        }
     }
 }

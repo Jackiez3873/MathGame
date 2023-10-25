@@ -10,10 +10,7 @@ public class MathGame {
     private Player winner;
     private boolean gameOver;
     private Scanner scanner;
-
-    private boolean p1Wrong;
-    private boolean p2Wrong;
-    private boolean p3Wrong;
+    private Player firstWinner;
 
     private int streak;
     private Player prevWinner;
@@ -29,13 +26,12 @@ public class MathGame {
         currentPlayer = null; // will get assigned at start of game
         winner = null; // will get assigned when a Player wins
         gameOver = false;
-        p1Wrong = false;
-        p2Wrong = false;
-        p3Wrong = false;
-        streak = 1;
+
+        streak = 0;
         prevWinner = null;
         numWrong = 0;
     }
+
     public int getStreak() {
         return streak;
     }
@@ -44,10 +40,6 @@ public class MathGame {
 
     // returns winning Player; will be null if neither Player has won yet
     public Player getWinner() {
-        if (prevWinner == winner) {
-            streak++;
-        }
-        prevWinner = winner;
         return winner;
     }
 
@@ -64,7 +56,9 @@ public class MathGame {
                 swapPlayers();  // this helper method (shown below) sets currentPlayer to the other Player
             } else {
                 System.out.println("INCORRECT!");
+                numWrong++;
                 determineWinner();
+                swapPlayers();
             }
         }
     }
@@ -84,10 +78,10 @@ public class MathGame {
         player1.reset(); // this method resets the player
         player2.reset();
         player3.reset();
+        currentPlayer = null; // will get assigned at start of game
+        winner = null; // will get assigned when a Player wins
         gameOver = false;
-        currentPlayer = null;
-        winner = null;
-        streak = 1;
+        numWrong = 0;
 
     }
 
@@ -98,7 +92,7 @@ public class MathGame {
         int randNum = (int) (Math.random() * 3) + 1;
         if (randNum == 1) {
             currentPlayer = player1;
-        } else if (randNum == 2){
+        } else if (randNum == 2) {
             currentPlayer = player2;
         } else {
             currentPlayer = player3;
@@ -144,7 +138,7 @@ public class MathGame {
     private void swapPlayers() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
-        } else if (currentPlayer == player2){
+        } else if (currentPlayer == player2) {
             currentPlayer = player3;
         } else {
             currentPlayer = player1;
@@ -154,6 +148,23 @@ public class MathGame {
     // sets the winner when the game ends based on the player that missed the question
     private void determineWinner() {
         if (numWrong == 2) {
-            if
+            if (currentPlayer == player1) {
+                winner = player2;
+            } else if (currentPlayer == player2) {
+                winner = player3;
+            } else {
+                winner = player1;
+            }
+            if (prevWinner == null) {
+                prevWinner = winner;
+            }
+            if (prevWinner == winner) {
+                streak++;
+            } else {
+                streak = 1;
+            }
+            prevWinner = winner;
+            gameOver = true;
+        }
     }
 }
